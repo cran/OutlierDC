@@ -1,0 +1,6 @@
+export(odc, odcNews) #exporting methods implicitly exports the generics
+import(methods)
+import(graphics)
+## S4 class
+exportClasses(OutlierDC)
+exportMethods(show, plot, coef, update) 
