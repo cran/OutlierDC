@@ -5,8 +5,11 @@
 	outlier detection algorithms using quantile regression for censored data 
 }
 \usage{
-     odc(formula, data, method = c("score", "boxplot","residual"), 
-      rq.model = c("Wang", "PengHuang", "Portnoy"), k = 1.5, h = .05 )
+     odc(formula, data, 
+          method = c("score", "boxplot","residual"), 
+          rq.model = c("Wang", "PengHuang", "Portnoy"), 
+          k_r = 1.5, k_b =1.5, h = .05)
+
 }
 
 \arguments{
@@ -16,8 +19,12 @@
   }
   \item{rq.model}{the type of censored quantile regression to be used for fitting. The options \code{"Wang", "Portnoy"}, and \code{"PengHuang"} conduct Wang and Wang's, Portnoy's, and Peng and Huang's censored quantile regression approaches, respectively. The default is \code{"Wang"}.
   }
-  \item{k}{a constant to control the tightness of cut-offs for residual-based and boxplot algorithms with a default value of 1.5.
-   }
+  %\item{bound}{the type of bound to be used for fitting. The option \code{"both"} conduct the rountine to find both upper and lower outliers, wihle the options \code{"UB"} and \code{"LB"} work for finding upper outliers and lower outliers, respectively.
+  %}
+  \item{k_r}{a value to control the tightness of cut-offs for the residual algorithm with a default value of 1.5.
+  }
+  \item{k_b}{a value to control the tightness of cut-offs for the boxplot algorithm with a default value of 1.5.
+  }
    \item{h}{bandwidth for locally weighted censored quantile regression with a default value of 0.05.
    }
 }
@@ -30,6 +37,7 @@
   formula: formula to be used\cr
   raw.data: data to be used for model fitting\cr
   refined.data: the data set after removing outliers\cr
+  refined.data: the data set containing outliers\cr
   coefficients: the estimated censored quantile regression coefficient matrix consisting of 10th, 25th, 50th, 75th, and 90th quantiles\cr
   fitted.mat: the censored quantile regression fitted value matrix consisting of 10th, 25th, 50th, 75th, and 90th quantiles\cr 
   score: outlying scores (scoring algorithm) or residuals (residual-based algorithm)\cr
@@ -40,9 +48,10 @@
   n.outliers: number of outliers detected\cr
   method: outlier detection method to be used\cr
   rq.model: censored quantile regression to be used\cr
-  k: constant value to be used for the tightness of cut-offs in the residual-based and boxplot algorithms\cr
-  UB: upper fence used for the scoring algorithm with the \code{\link{update}} function\cr
-  LB: lower fence used for the scoring algorithm with the \code{\link{update}} function\cr
+  k_r: a value to be used for the tightness of cut-offs in the residual algorithm \cr
+  k_b: a value to be used for the tightness of cut-offs in the boxplot algorithm \cr
+  k_s: a value to be used for the tightness of upper fence cut-offs used for the scoring algorithm with the \code{\link{update}} function\cr
+  %LB: lower fence used for the scoring algorithm with the \code{\link{update}} function\cr
 }
 \author{
    Soo-Heang Eo <hanansh@korea.ac.kr> \cr
@@ -59,29 +68,36 @@ Eo SH, Hong SM and Cho H (2013+). OutlierDC: Outlier Detection Algorithms using 
 \examples{
   \dontrun{
     require(OutlierDC)
+    # Toy example 
     data(ebd)
+    # The data consists of 402 observations with 6 variables. 
+    dim(ebd)
+    # To show the first six observations of the dataset,
+    head(ebd)
     
     #scoring algorithm
     fit <- odc(Surv(log(time), status) ~ meta, data = ebd)
     fit
     coef(fit)
     plot(fit)
-    fit1 <- update(fit, UB = 4, LB = -4)
+
+    # Add upper bound for the selection of outleirs
+    fit1 <- update(fit, k_s = 4)
     fit1
     plot(fit1)
 
-    fit2 <- update(fit, UB = NA, LB = -4)
-    fit3 <- update(fit, UB = 4, LB = NA)
- 
     # residual-based algorithm
-    fit4 <- odc(Surv(log(time), status) ~ meta, data = ebd, method = "residual", k = 3)
-    fit4
-    plot(fit4)
+    fit2 <- odc(Surv(log(time), status) ~ meta, data = ebd, method = "residual", k_r = 1.5)
+    fit2
+    plot(fit2)
+    
+    # To display all of outlying observations in the fitted object
+    fit2@outlier.data
     
     # boxplot algorithm
-    fit5 <- odc(Surv(log(time), status) ~ meta, data = ebd, method = "boxplot", k = 1.5)
-    fit5
-    plot(fit5, ylab = "log survival times", xlab = "metastasis lymph nodes")
+    fit3 <- odc(Surv(log(time), status) ~ meta, data = ebd, method = "boxplot", k_b = 1.5)
+    fit3
+    plot(fit3, ylab = "log survival times", xlab = "metastasis lymph nodes")
 }
 }
 \keyword{models}

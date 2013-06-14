@@ -15,6 +15,7 @@ Objects can be created by calls of the form \code{new("OutlierDC")}.
     \item{\code{formula}:}{formula to be used with the type of \code{"Formula"} }
     \item{\code{raw.data}:}{data to be used with the type of \code{"data.frame"} }
     \item{\code{refined.data}:}{the data set after removing outliers with the type of \code{"data.frame"} }
+    \item{\code{outlier.data}:}{the data set containing outliers with the type of \code{"data.frame"} }
     \item{\code{coefficients}:}{the estimated censored quantile regression coefficient matrix with the type of \code{"data.frame"} }
     \item{\code{fitted.mat}:}{the censored quantile regression fitted value matrix with the type of \code{"matrix"} }
     \item{\code{score}:}{outlying scores (scoring algorithm) or residuals (residual-based algorithm). The object of class \code{"vector"} }
@@ -25,9 +26,11 @@ Objects can be created by calls of the form \code{new("OutlierDC")}.
     \item{\code{n.outliers}:}{number of outliers to be used. The object of class \code{"integer"} }
     \item{\code{method}:}{outlier detection method to be used with the type of \code{"character"}}
     \item{\code{rq.model}:}{censored quantile regression to be fitted. The object of class \code{"character"} }
-    \item{\code{k}:}{constant value to be used for the tightness of cut-offs in the residual-based and boxplot algorithm with the type of \code{"numeric"} }
-    \item{\code{UB}:}{upper fence used for the scoring algorithm with \code{update} function. The Object of class \code{"numeric"} }
-    \item{\code{LB}:}{lower fence used for the scoring algorithm with \code{update} function. The object of class \code{"numeric"} }
+    \item{\code{k_r}:}{a value to be used for the tightness of cut-offs in the residual-based algorithm with the type of \code{"numeric"} }
+    \item{\code{k_b}:}{a value to be used for the tightness of cut-offs in the boxplot algorithm with the type of \code{"numeric"} }
+    \item{\code{bound}:}{type of fence to be used with \code{"character"}.}
+    \item{\code{k_s}:}{a value to be used for the tightness of upper fence cut-offs used for the scoring algorithm with \code{update} function. The Object of class \code{"numeric"} }
+    %\item{\code{LB}:}{lower fence used for the scoring algorithm with \code{update} function. The object of class \code{"numeric"} }
     }
 }
 \section{Methods}{

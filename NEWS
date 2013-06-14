@@ -1,5 +1,19 @@
 ###########################################################################################
-Changes in OutlierDC 0.2-1
+Changes in OutlierDC 0.2.5
+- Bug fixed in odc() function
+
+###########################################################################################
+Changes in OutlierDC 0.2.3
+- Support R-3.0.0
+- Bug fixed in show() function
+- Add a way of bound for the detection of outliers: both, LB, and UB 
+
+###########################################################################################
+Changes in OutlierDC 0.2.2
+- Suuport multiple covariates in locally weighted censored quantile regression 
+
+###########################################################################################
+Changes in OutlierDC 0.2.1
 - Bug fixed in the function odc()
 
 ###########################################################################################

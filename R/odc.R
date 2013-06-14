@@ -11,7 +11,11 @@
 #
 ##########################################################################
 
-odc <- function(formula, data, method = c("score", "boxplot","residual"), rq.model = c("Wang", "PengHuang", "Portnoy"), k = 1.5, h = .05){
+odc <- function(formula, data, 
+	method = c("score", "boxplot","residual"), 
+	rq.model = c("Wang", "PengHuang", "Portnoy"), 
+	#bound = c("UB", "LB", "both" ),
+	k_r = 1.5, k_b = 1.5, h = .05){
 
     ##########
     #Preparation
@@ -19,7 +23,9 @@ odc <- function(formula, data, method = c("score", "boxplot","residual"), rq.mod
     rq.model <- match.arg(rq.model)
 	method <- match.arg(method)
     formula <- Formula(formula)
-	
+	#bound <- match.arg(bound)
+	bound = "UB"
+
 	if(is.data.frame(data)) data <- as.data.frame(data)
 	mf1 <- model.frame(formula, data = data)
 	X.mat <- model.matrix(formula, data = mf1)
@@ -74,12 +80,24 @@ odc <- function(formula, data, method = c("score", "boxplot","residual"), rq.mod
     if(method == "boxplot"){
     	# calculate fences
     	iqr <- fit.q75 -fit.q25
-    	upper.fence <- fit.q75 + (k * iqr)
-    	lower.fence <- fit.q25 - ( k * iqr)
+    	upper.fence <- fit.q75 + (k_b * iqr)
+    	lower.fence <- fit.q25 - (k_b * iqr)
 
-    	outlier <- ifelse(y > fit.q50,
-    				y > upper.fence, y < lower.fence)
-    	outlier <- ifelse(is.na(outlier), FALSE, outlier)
+    	if(bound == "both"){
+	    	outlier <- ifelse(y > fit.q50,
+	    				y > upper.fence, y < lower.fence)
+	    	outlier <- ifelse(is.na(outlier), FALSE, outlier)
+    	}
+    	else if(bound == "LB"){
+    		# calculate only lower bound
+	    	outlier <- y <= lower.fence
+	    	outlier <- ifelse(is.na(outlier), FALSE, outlier)
+    	}
+    	else if(bound == "UB"){
+    		# calculate only upper bound
+	    	outlier <- y >= upper.fence
+	    	outlier <- ifelse(is.na(outlier), FALSE, outlier)
+    	}
 
 		result@lower <- lower.fence
 		result@upper <- upper.fence
@@ -90,7 +108,9 @@ odc <- function(formula, data, method = c("score", "boxplot","residual"), rq.mod
     	score <- score
     	cutoff <- median(abs(score) / qnorm(0.75), na.rm = TRUE)
 
-		outlier <- abs(score) > (k * cutoff)
+    	if (bound == "both")	outlier <- abs(score) > (k_r * cutoff)
+    	else if (bound == "UB") outlier <- score > (k_r * cutoff)
+    	else if (bound == "LB") outlier <- score < -1 * (k_r * cutoff)
 
     	result@score <- score # absolute value of residuals
     	result@cutoff  <- cutoff
@@ -110,8 +130,10 @@ odc <- function(formula, data, method = c("score", "boxplot","residual"), rq.mod
 	result@outliers <- outlier	
 	result@n.outliers <- n.outliers
 	result@refined.data <- data[!outlier,, drop = FALSE]
-	result@k <- k
-	
+	result@outlier.data <- data[outlier,, drop = FALSE]
+	result@k_r <- k_r
+	result@k_b <- k_b
+	result@bound <- bound	
 	cat("Done. \n")
 	return(result)
 }
