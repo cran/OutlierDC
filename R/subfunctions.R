@@ -1,15 +1,8 @@
 .onAttach <- function(libname, pkgname) {
     ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname),
                       fields="Version")
-    packageStartupMessage("Package ", pkgname, " (",ver,") loaded.")
     packageStartupMessage("")
-    packageStartupMessage("Type 'help(\"OutlierDC-package\")' in order to see general information.")
-    packageStartupMessage("Type a command, 'odcNews()', to see new changes and bugs fixed.")
-}
-
-odcNews <- function(){
-	file.locate <- file.path(system.file(package = "odc"), "NEWS")
-	file.show(file.locate)
+    packageStartupMessage("Package ", pkgname, " (",ver,") loaded.")
 }
 
 ##################################################

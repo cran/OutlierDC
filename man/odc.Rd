@@ -9,7 +9,6 @@
           method = c("score", "boxplot","residual"), 
           rq.model = c("Wang", "PengHuang", "Portnoy"), 
           k_r = 1.5, k_b =1.5, h = .05)
-
 }
 
 \arguments{
@@ -19,7 +18,7 @@
   }
   \item{rq.model}{the type of censored quantile regression to be used for fitting. The options \code{"Wang", "Portnoy"}, and \code{"PengHuang"} conduct Wang and Wang's, Portnoy's, and Peng and Huang's censored quantile regression approaches, respectively. The default is \code{"Wang"}.
   }
-  %\item{bound}{the type of bound to be used for fitting. The option \code{"both"} conduct the rountine to find both upper and lower outliers, wihle the options \code{"UB"} and \code{"LB"} work for finding upper outliers and lower outliers, respectively.
+  %\item{bound}{the type of bound to be used for fitting. The option \code{"both"} conduct the routine to find both upper and lower outliers, while the options \code{"UB"} and \code{"LB"} work for finding upper outliers and lower outliers, respectively.
   %}
   \item{k_r}{a value to control the tightness of cut-offs for the residual algorithm with a default value of 1.5.
   }
@@ -29,7 +28,7 @@
    }
 }
 \details{
-	The \code{odc} function conducts three outlier detection algorithms on the basis of censored quantile regression. Three outlier detection algorithms were implemented: residual-based, boxplot, and scoring algorithms. The residual-based algorithm detects outlying observations using constant scale estimates; however, it does not account for the heterogeneity of variablity. When the data is extremely heterogeneous, the boxplot algorithm with censored quantile regression is more effective. The residual-based and boxplot algorithms produce cut-offs to determine whether observations are outliers. In contrast, the scoring algorithm provides the outlying magnitude or deviation of each point from the distribution of observations. Outlier detection is achieved by visualizing the scores. 
+	The \code{odc} function conducts three outlier detection algorithms on the basis of censored quantile regression. Three outlier detection algorithms were implemented: residual-based, boxplot, and scoring algorithms. The residual-based algorithm detects outlying observations using constant scale estimates; however, it does not account for the heterogeneity of variability. When the data is extremely heterogeneous, the boxplot algorithm with censored quantile regression is more effective. The residual-based and boxplot algorithms produce cut-offs to determine whether observations are outliers. In contrast, the scoring algorithm provides the outlying magnitude or deviation of each point from the distribution of observations. Outlier detection is achieved by visualising the scores. 
 }
 \value{
 	an object of the S4 class "OutlierDC" with the following slots:\cr
@@ -41,7 +40,7 @@
   coefficients: the estimated censored quantile regression coefficient matrix consisting of 10th, 25th, 50th, 75th, and 90th quantiles\cr
   fitted.mat: the censored quantile regression fitted value matrix consisting of 10th, 25th, 50th, 75th, and 90th quantiles\cr 
   score: outlying scores (scoring algorithm) or residuals (residual-based algorithm)\cr
-  cutoff: estimated scale parameter for the residual-based algoritm\cr
+  cutoff: estimated scale parameter for the residual-based algorithm\cr
   lower: lower fence vector used for the boxplot and scoring algorithms\cr
   upper: upper fence vector used for the boxplot and scoring algorithms\cr
   outliers: logical vector to determine which observations are outliers\cr
@@ -53,18 +52,15 @@
   k_s: a value to be used for the tightness of upper fence cut-offs used for the scoring algorithm with the \code{\link{update}} function\cr
   %LB: lower fence used for the scoring algorithm with the \code{\link{update}} function\cr
 }
-\author{
-   Soo-Heang Eo <hanansh@korea.ac.kr> \cr
-   HyungJun Cho <hj4cho@korea.ac.kr>
-}
-\references{
-Eo SH, Hong SM and Cho H (2013+). OutlierDC: Outlier Detection Algorithms using Quantile Regression for Censored Survival Data. \emph{submitted}.
+\source{
+Eo S-H, Hong S-M Hong, Cho H (2014). Identification of outlying observations with quantile regression for censored data, \emph{Submitted}.
+
+Wang HJ, Wang L (2009) Locally Weighted Censored Quantile Regression. JASA 104:1117--1128. doi: 10.1198/jasa.2009.tm08230
 }
 \seealso{
     \code{\link{OutlierDC-package}} \cr 
     \code{\link{coef}}, \code{\link{plot}}, \code{\link{show}}, \code{\link{update}}
 }
-
 \examples{
   \dontrun{
     require(OutlierDC)

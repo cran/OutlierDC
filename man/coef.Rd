@@ -2,7 +2,7 @@
 \docType{methods}
 \alias{coef}
 \alias{coef,OutlierDC-method}
-\title{ a \code{coef} mehhod for "OutlierDC".}
+\title{ a \code{coef} method for "OutlierDC".}
 \description{
     \code{coef} is a generic function which extracts model coefficient matrix including the 10th, 25th, 50th, 75th, 90th quantile estimates. 
 }

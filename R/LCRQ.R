@@ -100,4 +100,3 @@ LCRQ <- function(y, x, delta, tau, h, kernel.type = "4th"){
     result<-rq1$coeff
     result    
 }
-# END modified by Soo-Heang Eo @ 16 March, 2013

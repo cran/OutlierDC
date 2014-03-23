@@ -2,9 +2,9 @@
 \docType{methods}
 \alias{plot}
 \alias{plot,OutlierDC-method}
-\title{a plot method for OutlierDC}
+\title{a plot-method for a "OutlierDC" object}
 \description{
-    This function provides three different results. If the algorithm is \code{score}, it draws a normal quantile-quantile plot of the outlying scores. If the algorithm is \code{boxplot}, the scatter plot of log survival times against the covariate used is given. Lasty, if the algorithm is \code{residual}, it offers a residual plot. 
+    This function provides three different results. If the algorithm is \code{score}, it draws a normal quantile-quantile plot of the outlying scores. If the algorithm is \code{boxplot}, the scatter plot of log survival times against the covariate used is given. Lastly, if the algorithm is \code{residual}, it offers a residual plot. 
 }
 \usage{
     \S4method{plot}{OutlierDC}(x, y = NA, ...)

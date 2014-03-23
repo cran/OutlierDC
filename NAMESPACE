@@ -1,6 +1,11 @@
-export(odc, odcNews) #exporting methods implicitly exports the generics
+importFrom("graphics", plot)
+importFrom("survival", Surv)
+
+import(quantreg)
+import(Formula)
 import(methods)
-import(graphics)
+
 ## S4 class
+export(odc) #exporting methods implicitly exports the generics
 exportClasses(OutlierDC)
 exportMethods(show, plot, coef, update) 
